@@ -16,8 +16,6 @@
             <groupId>com.chethana.sample</groupId>
             <artifactId>web</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>/home/chethana/Documents/myInteli/helloworld/web/target/web-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
     </dependencies>
 
