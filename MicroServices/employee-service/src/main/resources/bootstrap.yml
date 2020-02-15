@@ -1,5 +1,6 @@
 server:
   port: 8080
+
 eureka:
   client:
     register-with-eureka: true
@@ -7,3 +8,5 @@ eureka:
 spring:
   application:
     name: employee
+
+

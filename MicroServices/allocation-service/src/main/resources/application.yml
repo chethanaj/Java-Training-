@@ -9,5 +9,6 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: create
-server:
-  port: 8081
+#server:
+#  port: 8081
+

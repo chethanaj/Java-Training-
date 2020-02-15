@@ -2,8 +2,8 @@ package com.example.employeeservice.model;
 
 
 import lombok.Data;
-
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,5 +28,7 @@ public class Employee {
             inverseJoinColumns = {@JoinColumn(name = "pid",referencedColumnName = "id")})
     private List<Project> projects;
 
+    @Transient
+    private List<Allocation> allocations = new ArrayList<>();
 
 }

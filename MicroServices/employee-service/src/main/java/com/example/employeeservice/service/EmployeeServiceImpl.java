@@ -1,15 +1,14 @@
 package com.example.employeeservice.service;
 
-import com.example.employeeservice.model.Allocation;
+import com.example.employeeservice.hystrix.AllocationCommand;
 import com.example.employeeservice.model.Employee;
 import com.example.employeeservice.model.Telephone;
 import com.example.employeeservice.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,15 +19,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @Autowired
+    RestTemplate restTemplate;
+
+    @Autowired
+    HttpHeaders httpHeaders;
 
     public Employee save(Employee employee) {
-
 
         for (Telephone telephone : employee.getTelephones()) {
             telephone.setEmployee(employee);
 
         }
-
 
         return employeeRepository.save(employee);
     }
@@ -41,27 +43,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         Optional<Employee> employees = employeeRepository.findById(employeeId);
         if (employees.isPresent())
             return employees.get();
-        return null;
+        return new Employee();
 
 
     }
 
-    public List<Allocation> fetchAllocation() {
+    public Employee fetchAllocation(Integer id) {
 
-        RestTemplate restTemplate = new RestTemplate();
+        Employee employee = this.findById(id);
 
-        ResponseEntity<Allocation[]> result = restTemplate.getForEntity("http://localhost:8081/services/allocation", Allocation[].class);
+        AllocationCommand allocationCommand = new AllocationCommand(employee, httpHeaders, restTemplate);
 
-        Allocation[] resultBody = result.getBody();
+        employee.setAllocations(Arrays.asList(allocationCommand.execute()));
 
-        List<Allocation> allocations = new ArrayList<>();
-
-        for (Allocation allocation : resultBody) {
-            allocation.setEmployee(this.findById(allocation.getEmpId()));
-            allocations.add(allocation);
-        }
-
-
-        return allocations;
+        return employee;
     }
 }

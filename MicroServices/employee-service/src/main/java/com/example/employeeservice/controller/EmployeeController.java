@@ -1,14 +1,9 @@
 package com.example.employeeservice.controller;
 
-import com.example.employeeservice.model.Allocation;
 import com.example.employeeservice.model.Employee;
 import com.example.employeeservice.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
@@ -31,9 +26,11 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    @RequestMapping("/employee/allocation")
-    public List<Allocation> getEmployeesAllocation() {
-        return employeeService.fetchAllocation();
+
+    @RequestMapping("/employee/allocation/{id}")
+    public Employee getFetchAllocation(@PathVariable Integer id) {
+
+        return employeeService.fetchAllocation(id);
     }
 
 }

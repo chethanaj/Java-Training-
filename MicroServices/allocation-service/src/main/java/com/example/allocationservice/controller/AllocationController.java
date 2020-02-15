@@ -29,6 +29,7 @@ public class AllocationController {
 
     @RequestMapping(value = "allocation/findByEmployeeId/{id}", method = RequestMethod.GET)
     public List<Allocation> getAllocationByEmployeeId(@PathVariable Integer id) {
+        System.out.println("#######################2");
         return allocationService.getAllocationByEmployeeId(id);
     }
 }
